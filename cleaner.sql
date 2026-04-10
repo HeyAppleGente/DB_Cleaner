@@ -932,66 +932,80 @@ INSERT INTO pago VALUES (38,'PayPal','ak-std-000026','2006-05-26',1171);
 
 /* SENTENCIAS DML PARA PRÁCTICAR SIN MORIR EN EL INTENTO */
 /* EJEMPLO PARA CONOCER LAS COLUMNAS DE UNA TABLA*/
-DESCRIBE EMPLEADO;
 
-SELECT codigo_empleado, nombre, apellido1, apellido2,
-extension, email, codigo_oficina, codigo_jefe
-puesto FROM EMPLEADO;
 
-/* RETO 1 - Retorna un listado con el código de oficina y 
+/* PUNTO A - Retorna un listado con el código de oficina y 
 la ciudad donde hay oficinas */
+SHOW tables;
+DESCRIBE oficina;
+SELECT codigo_oficina, ciudad FROM oficina;
+SELECT codigo_oficina,ciudad,pais,region,codigo_postal,telefono,
+linea_direccion1,linea_direccion2 FROM oficina;
 
-describe oficina;
+/* PUNTO B - Retorna un listado con la ciudad y el teléfono de las oficinas de España */
+SHOW TABLES;
+DESCRIBE oficina;
+SELECT ciudad, telefono FROM oficina WHERE pais = 'ESPAÑA';
+SELECT codigo_oficina,ciudad,pais,region,codigo_postal,telefono,
+linea_direccion1,linea_direccion2 FROM oficina;
 
-select o.codigo_oficina as cod_oficina, o.ciudad country,
-concat(o.codigo_oficina,' - ', o.ciudad) as cod_ciudad_oficina
- from oficina o;
- 
- /* RETO 2 - Retorna un listado con la ciudad y 
- el telefono de las oficinas en España. */
- 
- select ciudad, telefono, pais from oficina
- where upper(pais) = 'ESPAÑA';
- 
- /* RETO 3 - Retorna el listado con todos los clientes que sean
- de la ciudad de Madrid y cuyo representante de ventas tenga 
- el código de empleado 11 ó 30. */
- 
- describe cliente;
- describe empleado;
- 
- select count(*) total_registros /*cl.ciudad, em.codigo_empleado */
- from cliente cl 
- join empleado em 
- on em.codigo_empleado = cl.codigo_empleado_rep_ventas
- where upper(cl.ciudad) = 'MADRID'
- and (em.codigo_empleado = 11 
- OR em.codigo_empleado = 30);
- 
-  select count(*) total_registros /*cl.ciudad, em.codigo_empleado */
- from cliente cl 
- join empleado em 
- on em.codigo_empleado = cl.codigo_empleado_rep_ventas
- where upper(cl.ciudad) = 'MADRID'
- and em.codigo_empleado in (11,30); 
- 
-select count(*) total_registros /*cl.ciudad, em.codigo_empleado */
- from cliente cl,  empleado em 
- where em.codigo_empleado = cl.codigo_empleado_rep_ventas
- and upper(cl.ciudad) = 'MADRID'
- and em.codigo_empleado in (11,30); 
- 
- select em.codigo_empleado, count(*) total_registros /*cl.ciudad, em.codigo_empleado */
- from cliente cl,  empleado em 
- where em.codigo_empleado = cl.codigo_empleado_rep_ventas
- and upper(cl.ciudad) = 'MADRID'
- and em.codigo_empleado in (11,30)
- group by em.codigo_empleado; 
+/*  PUNTO C -  Retorna un listado con el nombre, apellidos y email de los empleados cuyo jefe tiene un código de jefe igual a 7. */
+SHOW TABLES;
+DESCRIBE empleado;
+SELECT nombre, apellido1, apellido2, email FROM empleado WHERE codigo_jefe = 7;
+SELECT codigo_empleado,nombre,apellido1,apellido2,extension,email,codigo_oficina,codigo_jefe,
+puesto FROM empleado;
 
- select cl.ciudad, count(*) total_registros /*cl.ciudad, em.codigo_empleado */
- from cliente cl,  empleado em 
- where em.codigo_empleado = cl.codigo_empleado_rep_ventas
- and em.codigo_empleado in (11,30)
- group by cl.ciudad
- order by cl.ciudad desc; 
+/* PUNTO D - Retorna el nombre del puesto, nombre, apellidos y email del jefe de la empresa */
+SHOW TABLES;
+DESCRIBE empleado;
+SELECT puesto, nombre, apellido1, apellido2, email FROM empleado WHERE puesto LIKE 'Director%';
+SELECT codigo_empleado,nombre,apellido1,apellido2,extension,email,codigo_oficina,codigo_jefe,
+puesto FROM empleado;
 
+/* PUNTO C - Retorna un listado con el nombre, apellidos y puesto de aquellos empleados que no sean representantes de ventas */
+SHOW TABLES;
+DESCRIBE empleado;
+
+SELECT puesto, nombre, apellido1, apellido2, email 
+FROM empleado WHERE puesto != 'Representante Ventas';
+
+SELECT codigo_empleado,nombre,apellido1,apellido2,extension,email,codigo_oficina,codigo_jefe,
+puesto FROM empleado;
+
+/* PUNTO E - Retorna un listado con el nombre de los todos los clientes españoles */
+SHOW TABLES;
+DESCRIBE cliente;
+SELECT nombre_cliente FROM cliente WHERE pais = 'SPAIN';
+SELECT codigo_cliente,nombre_cliente,nombre_contacto,apellido_contacto,telefono,fax,linea_direccion1,linea_direccion2,ciudad,region,pais,codigo_postal,codigo_empleado_rep_ventas,limite_credito
+FROM cliente;
+
+/* PUNTO F - Retorna un listado con los distintos estados por los que puede pasar un pedido. */
+SHOW TABLES;
+DESCRIBE pedido;
+SELECT DISTINCT estado FROM pedido;
+SELECT codigo_pedido,fecha_pedido,fecha_esperada,fecha_entrega,estado,comentarios,codigo_cliente
+FROM pedido;
+
+/* PUNTO G - Genera un listado con el código de cliente de aquellos clientes que realizaron algún pago en 2008. Tenga en cuenta que deberá eliminar aquellos códigos de cliente que aparezcan repetidos. Resuelva la consulta:
+
+Utilizando la función YEAR de MySQL.
+Utilizando la función DATE_FORMAT de MySQL. 
+*Sin utilizar ninguna de las funciones anteriores. */
+
+SHOW TABLES;
+DESCRIBE pago;
+
+/* función YEAR de MySQL.*/
+SELECT codigo_cliente FROM pago WHERE YEAR(fecha_pago) = 2008;
+/* función DATE_FORMAT */
+SELECT codigo_cliente FROM pago  WHERE DATE_FORMAT(fecha_pago, '%Y') = '2008';
+/* Sin utilizar ninguna de las funciones */
+SELECT codigo_cliente FROM pago WHERE fecha_pago >= '2000-10-01' AND '2008-01-01'; 
+
+SELECT codigo_cliente,forma_pago,id_transaccion,fecha_pago,total FROM pago;
+
+
+
+/* Entrego este trabajo feliz, porque no hice uso de la IA para el desarrollo de la misma */
+/* Pelu */
