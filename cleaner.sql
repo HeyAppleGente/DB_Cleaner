@@ -1023,8 +1023,8 @@ SELECT codigo_pedido, fecha_pedido, fecha_esperada, fecha_entrega, estado, comen
 /*Utilizando la función ADDDATE de MySQL.*/
 SELECT codigo_pedido, codigo_cliente, fecha_esperada, fecha_entrega FROM pedido WHERE fecha_entrega <= ADDDATE(fecha_esperada, INTERVAL -2 DAY);
 /*Utilizando la función DATEDIFF de MySQL.*/
-SELECT codigo_pedido, codigo_cliente, fecha_esperada, fecha_entrega FROM pedido WHERE fecha_entrega <= ADDDATE(fecha_esperada, INTERVAL -2 DAY);
-
+SELECT codigo_pedido, codigo_cliente, fecha_esperada, fecha_entrega FROM pedido WHERE DATEDIFF(fecha_esperada, fecha_entrega);
+>= 2;
 /*PUNTO J - Genera un listado de todos los pedidos que fueron rechazados en 2009.*/
 
 SHOW TABLES;
@@ -1068,9 +1068,9 @@ SHOW TABLES;
 DESCRIBE cliente;
 SELECT codigo_cliente, nombre_cliente, nombre_contacto, apellido_contacto, telefono, fax, linea_direccion1, linea_direccion2, ciudad,
 region, pais, codigo_postal, codigo_empleado_rep_ventas, limite_credito FROM cliente;
-SELECT nombre_cliente, ciudad, codigo_empleado_rep_ventas FROM cliente WHERE ciudad = 'Madrid' AND codigo_empleado_rep_ventas = 11 OR codigo_empleado_rep_ventas = 30;
+SELECT nombre_cliente, ciudad, codigo_empleado_rep_ventas FROM cliente WHERE ciudad = 'Madrid' AND (codigo_empleado_rep_ventas = 11 OR codigo_empleado_rep_ventas = 30);
 
 
-
+/* Hola buenas! */
 /* Entrego este trabajo feliz, porque no hice uso de la IA para el desarrollo de la misma */
 /* Pelu */
