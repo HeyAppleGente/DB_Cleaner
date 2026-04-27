@@ -1010,8 +1010,8 @@ que no han sido entregados a tiempo.*/
 
 SHOW TABLES;
 DESCRIBE pedido;
-SELECT codigo_pedido, fecha_pedido, fecha_esperada, fecha_entrega, estado, comentarios, codigo_cliente from pedido;
-SELECT codigo_pedido, codigo_cliente, fecha_entrega from pedido where fecha_entrega > fecha_esperada and estado = 'Entregado';
+SELECT codigo_pedido, fecha_pedido, fecha_esperada, fecha_entrega, estado, comentarios, codigo_cliente FROM pedido;
+SELECT codigo_pedido, codigo_cliente, fecha_entrega FROM pedido WHERE fecha_entrega > fecha_esperada AND estado = 'Entregado';
 
 /*PUNTO I - Genera un listado con el código de pedido, código de cliente, fecha esperada y fecha de entrega de los pedidos cuya
 fecha de entrega ha sido al menos dos días antes de la fecha esperada.*/
@@ -1050,8 +1050,8 @@ SELECT codigo_cliente, forma_pago, id_transaccion, fecha_pago, total FROM pago W
 
 SHOW TABLES;
 DESCRIBE pago;
-SELECT codigo_cliente, forma_pago, id_transaccion, fecha_pago, total from pago;
-SELECT  forma_pago from pago;
+SELECT codigo_cliente, forma_pago, id_transaccion, fecha_pago, total FROM pago;
+SELECT  forma_pago FROM pago;
 
 /*PUNTO N - Genera un listado con todos los productos que pertenecen a la gama Ornamentales y que tienen más de 100 unidades en stock.
 El listado deberá estar ordenado por su precio de venta, mostrando en primer lugar los de mayor precio.*/
